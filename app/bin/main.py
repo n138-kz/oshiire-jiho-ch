@@ -58,9 +58,10 @@ from dotenv import load_dotenv
 
 # load config
 logger.info('Loading the default config.')
+config_version = 1
 
 config = {}
-config['version'] = 1
+config['version'] = config_version
 config['authentication'] = {}
 config['authentication']['discord'] = {}
 config['authentication']['discord']['token'] = ''
@@ -80,7 +81,6 @@ else:
     sys.exit(1)
 
 # check the config version
-config_version = 1
 if config.get('version') != config_version:
     logger.warning('config.json version is not match. config version: {}, expected version: {}'.format(
         config['version'],

@@ -75,12 +75,16 @@ if os.path.exists(config_path):
         config = json.load(f)
 else:
     logger.warning(f'Config file not found: {config_path}')
-    logger.info('Initial Config:')
-    logger.info('```json')
-    logger.info(json.dumps(config))
-    logger.info('```')
-    with open(config_path, 'w') as f:
-        json.dump(config, f, indent=4)
+    try:
+        with open(config_path, 'w') as f:
+            json.dump(config, f, indent=4)
+        logger.info(f'Initial config file created: {config_path}')
+    except PermissionError as e:
+        logger.error(f'Permission denied when writing config file: {config_path}')
+        logger.info('Initial Config:')
+        logger.info('```json')
+        logger.info(json.dumps(config))
+        logger.info('```')
     sys.exit(1)
 
 # check the config version

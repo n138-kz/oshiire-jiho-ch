@@ -71,7 +71,9 @@ else:
         json.dump(config, f, indent=4)
     sys.exit(1)
 
-# check the token
+# check the discord token
+if len(config['authentication']['discord']['token']) > 0:
+    logger.info('Load the discord token.')
 else:
     raise ValueError('Require the token.discord')
 

@@ -71,6 +71,7 @@ else:
         json.dump(config, f, indent=4)
     sys.exit(1)
 
+# check the token
 load_dotenv()
 TOKEN_DISCORD=os.environ['TOKEN_DISCORD']
 if len(TOKEN_DISCORD) > 0:

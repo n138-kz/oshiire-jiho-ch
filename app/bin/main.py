@@ -56,9 +56,9 @@ import datetime
 import math
 from dotenv import load_dotenv
 
-# load config
 config_version = 1
 
+# load config
 logger.info('Loading the default config.')
 config = {}
 config['version'] = config_version

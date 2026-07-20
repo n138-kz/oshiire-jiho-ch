@@ -10,24 +10,24 @@ services:
       - type: bind
         source: ./app/config
         target: /app/config
-        readonly: false
+        read_only: false
         bind:
           create_host_path: true
       - type: bind
         source: ./app/data
         target: /app/data
-        readonly: false
+        read_only: false
         bind:
           create_host_path: true
       - type: bind
         source: ./app/bin
         target: /app/bin
-        readonly: true
+        read_only: true
         bind:
           create_host_path: true
       - type: bind
         source: ./app/log
         target: /app/log
-        readonly: false
+        read_only: false
         bind:
           create_host_path: true

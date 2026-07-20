@@ -20,5 +20,6 @@ services:
       - type: bind
         source: ./app/bin
         target: /app/bin
+        readonly: true
         bind:
           create_host_path: true

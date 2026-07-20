@@ -23,3 +23,8 @@ services:
         readonly: true
         bind:
           create_host_path: true
+      - type: bind
+        source: ./app/log
+        target: /app/log
+        bind:
+          create_host_path: true

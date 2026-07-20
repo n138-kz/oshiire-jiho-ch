@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./app/build/Dockerfile
     container_name: oshiire-jiho-ch
-    restart: unless-stopped
+    restart: no
     volumes:
       - type: bind
         source: ./app/config

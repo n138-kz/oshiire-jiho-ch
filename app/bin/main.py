@@ -88,7 +88,8 @@ if config.get('version') != config_version:
 if len(config['authentication']['discord']['token']) > 0:
     logger.info('Load the discord token.')
 else:
-    raise ValueError('Require the discord token.')
+    logger.error('Require the discord token.')
+    sys.exit(1)
 
 try:
     intents = discord.Intents.default()

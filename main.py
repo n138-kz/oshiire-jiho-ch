@@ -205,7 +205,7 @@ async def on_message(message):
 def main():
     logger.info('Connecting to Discord API')
     try:
-        client.run(TOKEN_DISCORD)
+        client.run(config['authentication']['discord']['token'])
     except discord.errors.PrivilegedIntentsRequired:
         logger.error(traceback.format_exc())
         sys.exit(1)

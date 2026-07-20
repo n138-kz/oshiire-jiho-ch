@@ -75,7 +75,7 @@ else:
 if len(config['authentication']['discord']['token']) > 0:
     logger.info('Load the discord token.')
 else:
-    raise ValueError('Require the token.discord')
+    raise ValueError('Require the discord token.')
 
 intents = discord.Intents.default()
 intents.message_content = True

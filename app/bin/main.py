@@ -57,6 +57,9 @@ import math
 from dotenv import load_dotenv
 
 config_version = 1
+config_dir = '/app/config'
+config_file = 'config.json'
+config_path = os.path.join(config_dir, config_file)
 
 # load config
 logger.info('Loading the default config.')
@@ -66,26 +69,23 @@ config['authentication'] = {}
 config['authentication']['discord'] = {}
 config['authentication']['discord']['token'] = ''
 
-logger.info('Loading the startup config.')
-if os.path.exists('/app/config/config.json'):
-    with open('/app/config/config.json', 'r') as f:
+logger.info('Loading the custom config.')
+if os.path.exists(config_path):
+    with open(config_path, 'r') as f:
         config = json.load(f)
 else:
-    logger.warning('config.json not found')
+    logger.warning(f'Config file not found: {config_path}')
     logger.info('Initial Config:')
     logger.info('```json')
     logger.info(json.dumps(config))
     logger.info('```')
-    with open('/app/config/config.json', 'w') as f:
+    with open(config_path, 'w') as f:
         json.dump(config, f, indent=4)
     sys.exit(1)
 
 # check the config version
 if config.get('version') != config_version:
-    logger.warning('config.json version is not match. config version: {}, expected version: {}'.format(
-        config['version'],
-        config_version,
-    ))
+    logger.warning(f'Config version is not match. Config version: {config["version"]}, Expected version: {config_version}')
     sys.exit(1)
 
 # check the discord token

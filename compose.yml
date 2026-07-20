@@ -1,0 +1,22 @@
+name: oshiire-jiho-ch
+services:
+  oshiire-jiho-ch:
+    build: .
+    container_name: oshiire-jiho-ch
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./config
+        target: /app/config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ./data
+        target: /app/data
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ./bin
+        target: /app/bin
+        bind:
+          create_host_path: true

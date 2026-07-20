@@ -1,0 +1,33 @@
+name: oshiire-jiho-ch
+services:
+  oshiire-jiho-ch:
+    build:
+      context: .
+      dockerfile: ./app/build/Dockerfile
+    container_name: oshiire-jiho-ch
+    restart: no
+    volumes:
+      - type: bind
+        source: ./app/config
+        target: /app/config
+        read_only: false
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ./app/data
+        target: /app/data
+        read_only: false
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ./app/bin
+        target: /app/bin
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: ./app/log
+        target: /app/log
+        read_only: false
+        bind:
+          create_host_path: true

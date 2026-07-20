@@ -16,17 +16,17 @@ logger_config['handlers']['fileHandler'] = {}
 logger_config['handlers']['fileHandler']['class'] = 'logging.FileHandler'
 logger_config['handlers']['fileHandler']['level'] = 'DEBUG'
 logger_config['handlers']['fileHandler']['formatter'] = 'simple'
-logger_config['handlers']['fileHandler']['filename'] = '/log/custom/console.log'
+logger_config['handlers']['fileHandler']['filename'] = '/app/log/console.log'
 logger_config['handlers']['discord'] = {}
 logger_config['handlers']['discord']['class'] = 'logging.FileHandler'
 logger_config['handlers']['discord']['level'] = 'DEBUG'
 logger_config['handlers']['discord']['formatter'] = 'simple'
-logger_config['handlers']['discord']['filename'] = '/log/custom/console.log'
+logger_config['handlers']['discord']['filename'] = '/app/log/discord.log'
 logger_config['handlers']['discord.http'] = {}
 logger_config['handlers']['discord.http']['class'] = 'logging.FileHandler'
 logger_config['handlers']['discord.http']['level'] = 'DEBUG'
 logger_config['handlers']['discord.http']['formatter'] = 'simple'
-logger_config['handlers']['discord.http']['filename'] = '/log/custom/console.log'
+logger_config['handlers']['discord.http']['filename'] = '/app/log/discord.http.log'
 logger_config['loggers'] = {}
 logger_config['loggers']['__main__'] = {}
 logger_config['loggers']['__main__']['level'] = 'DEBUG'
@@ -46,7 +46,8 @@ logging_conf.dictConfig(logger_config)
 logger = getLogger(__name__)
 logger.info('Init')
 
-import os,sys
+import os
+import sys
 import hashlib
 import traceback
 import discord
@@ -55,23 +56,58 @@ import datetime
 import math
 from dotenv import load_dotenv
 
-load_dotenv()
-TOKEN_DISCORD=os.environ['TOKEN_DISCORD']
-if len(TOKEN_DISCORD) > 0:
-    logger.info('Load & set the token DISCORD {}'.format(
-        hashlib.sha1(
-            hashlib.sha1(TOKEN_DISCORD.encode()).hexdigest()[0:7],
-            hashlib.sha1(TOKEN_DISCORD.encode()).hexdigest()[-7:],
-        ).hexdigest()[0:7]
-    ))
-else:
-    raise ValueError('Require the token.discord')
+config_version = 1
+config_dir = '/app/config'
+config_file = 'config.json'
+config_path = os.path.join(config_dir, config_file)
 
-intents = discord.Intents.default()
-intents.message_content = True
-intents.reactions = True
-intents.typing = True
-client = discord.Client(intents=intents)
+# load config
+logger.info('Loading the default config.')
+config = {}
+config['version'] = config_version
+config['authentication'] = {}
+config['authentication']['discord'] = {}
+config['authentication']['discord']['token'] = ''
+
+logger.info('Loading the custom config.')
+if os.path.exists(config_path):
+    with open(config_path, 'r') as f:
+        config = json.load(f)
+else:
+    logger.warning(f'Config file not found: {config_path}')
+    try:
+        with open(config_path, 'w') as f:
+            json.dump(config, f, indent=4)
+        logger.info(f'Initial config file created: {config_path}')
+    except PermissionError as e:
+        logger.error(f'Permission denied when writing config file: {config_path}')
+        logger.info('Initial Config:')
+        logger.info('```json')
+        logger.info(json.dumps(config))
+        logger.info('```')
+    sys.exit(1)
+
+# check the config version
+if config.get('version') != config_version:
+    logger.warning(f'Config version is not match. Config version: {config["version"]}, Expected version: {config_version}')
+    sys.exit(1)
+
+# check the discord token
+if len(config['authentication']['discord']['token']) > 0:
+    logger.info('Load the discord token.')
+else:
+    logger.error('Require the discord token.')
+    sys.exit(1)
+
+try:
+    intents = discord.Intents.default()
+    intents.message_content = True
+    intents.reactions = True
+    intents.typing = True
+    client = discord.Client(intents=intents)
+except Exception as e:
+    logger.error(traceback.format_exc())
+    sys.exit(1)
 
 @client.event
 async def on_ready():
@@ -188,7 +224,7 @@ async def on_message(message):
 def main():
     logger.info('Connecting to Discord API')
     try:
-        client.run(TOKEN_DISCORD)
+        client.run(config['authentication']['discord']['token'])
     except discord.errors.PrivilegedIntentsRequired:
         logger.error(traceback.format_exc())
         sys.exit(1)

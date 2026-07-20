@@ -62,8 +62,8 @@ config['version'] = 1
 config['authentication'] = {}
 config['authentication']['discord'] = {}
 config['authentication']['discord']['token'] = ''
-if os.path.exists('config.json'):
-    with open('config.json', 'r') as f:
+if os.path.exists('/app/config/config.json'):
+    with open('/app/config/config.json', 'r') as f:
         config = json.load(f)
 else:
     logger.warning('config.json not found')

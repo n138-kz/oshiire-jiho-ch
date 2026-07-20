@@ -46,7 +46,8 @@ logging_conf.dictConfig(logger_config)
 logger = getLogger(__name__)
 logger.info('Init')
 
-import os,sys
+import os
+import sys
 import hashlib
 import traceback
 import discord

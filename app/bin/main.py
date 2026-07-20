@@ -57,11 +57,15 @@ import math
 from dotenv import load_dotenv
 
 # load config
+logger.info('Loading the default config.')
+
 config = {}
 config['version'] = 1
 config['authentication'] = {}
 config['authentication']['discord'] = {}
 config['authentication']['discord']['token'] = ''
+
+logger.info('Loading the startup config.')
 if os.path.exists('/app/config/config.json'):
     with open('/app/config/config.json', 'r') as f:
         config = json.load(f)

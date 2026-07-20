@@ -73,6 +73,15 @@ else:
     logger.info('```')
     sys.exit(1)
 
+# check the config version
+config_version = 1
+if config.get('version') != config_version:
+    logger.warning('config.json version is not match. config version: {}, expected version: {}'.format(
+        config['version'],
+        config_version,
+    ))
+    sys.exit(1)
+
 # check the discord token
 if len(config['authentication']['discord']['token']) > 0:
     logger.info('Load the discord token.')

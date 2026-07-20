@@ -71,6 +71,8 @@ else:
     logger.info('```json')
     logger.info(json.dumps(config))
     logger.info('```')
+    with open('/app/config/config.json', 'w') as f:
+        json.dump(config, f, indent=4)
     sys.exit(1)
 
 # check the config version

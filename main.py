@@ -56,6 +56,20 @@ import datetime
 import math
 from dotenv import load_dotenv
 
+config = {}
+config['version'] = 1
+config['authentication'] = {}
+config['authentication']['discord'] = {}
+config['authentication']['discord']['token'] = ''
+if os.path.exists('config.json'):
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+else:
+    logger.warning('config.json not found')
+    with open('config.json', 'w') as f:
+        json.dump(config, f, indent=4)
+    sys.exit(1)
+
 load_dotenv()
 TOKEN_DISCORD=os.environ['TOKEN_DISCORD']
 if len(TOKEN_DISCORD) > 0:

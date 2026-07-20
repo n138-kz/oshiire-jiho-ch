@@ -6,17 +6,17 @@ services:
     restart: unless-stopped
     volumes:
       - type: bind
-        source: ./config
+        source: ./app/config
         target: /app/config
         bind:
           create_host_path: true
       - type: bind
-        source: ./data
+        source: ./app/data
         target: /app/data
         bind:
           create_host_path: true
       - type: bind
-        source: ./bin
+        source: ./app/bin
         target: /app/bin
         bind:
           create_host_path: true

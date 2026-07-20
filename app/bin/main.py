@@ -67,9 +67,10 @@ if os.path.exists('/app/config/config.json'):
         config = json.load(f)
 else:
     logger.warning('config.json not found')
-    logger.info(f"Initial Config: ```")
+    logger.info('Initial Config:')
+    logger.info('```json')
     logger.info(json.dumps(config))
-    logger.info(f"```")
+    logger.info('```')
     sys.exit(1)
 
 # check the discord token

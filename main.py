@@ -56,7 +56,7 @@ import datetime
 import math
 from dotenv import load_dotenv
 
-# config load
+# load config
 config = {}
 config['version'] = 1
 config['authentication'] = {}

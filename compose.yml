@@ -1,15 +1,12 @@
 name: oshiire-jiho-ch
 services:
   oshiire-jiho-ch:
-    build: .
+    build:
+      context: .
+      dockerfile: ./app/build/Dockerfile
     container_name: oshiire-jiho-ch
     restart: unless-stopped
     volumes:
-      - type: bind
-        source: ./app/build
-        target: /app/build
-        bind:
-          create_host_path: true
       - type: bind
         source: ./app/config
         target: /app/config

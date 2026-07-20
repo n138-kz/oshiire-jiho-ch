@@ -77,11 +77,15 @@ if len(config['authentication']['discord']['token']) > 0:
 else:
     raise ValueError('Require the discord token.')
 
-intents = discord.Intents.default()
-intents.message_content = True
-intents.reactions = True
-intents.typing = True
-client = discord.Client(intents=intents)
+try:
+    intents = discord.Intents.default()
+    intents.message_content = True
+    intents.reactions = True
+    intents.typing = True
+    client = discord.Client(intents=intents)
+except Exception as e:
+    logger.error(traceback.format_exc())
+    sys.exit(1)
 
 @client.event
 async def on_ready():

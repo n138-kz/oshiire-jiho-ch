@@ -57,9 +57,9 @@ import math
 from dotenv import load_dotenv
 
 # load config
-logger.info('Loading the default config.')
 config_version = 1
 
+logger.info('Loading the default config.')
 config = {}
 config['version'] = config_version
 config['authentication'] = {}
